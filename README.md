@@ -1,2 +1,2 @@
 # ipv4
-Manipulating IPv4 addresses in golang
+Fooling around with IPv4 addresses in golang

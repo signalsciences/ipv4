@@ -16,6 +16,12 @@ func FromNetIP(ip net.IP) (uint32, error) {
 	return binary.BigEndian.Uint32(ip), nil
 }
 
+// ToNetIP converts a uint32 to a net.IP (net.IPv4 actually)
+func ToNetIP(val uint32) net.IP {
+	return net.IPv4(byte(val>>24), byte(val>>16&0xFF),
+		byte(val>>8)&0xFF, byte(val&0xFF))
+}
+
 // FromDots converts a dotted IPv4 address to a uint32
 // http://play.golang.org/p/T5B-6RExlj
 // https://groups.google.com/forum/#!topic/golang-nuts/7sC28I57LRY

@@ -2,50 +2,58 @@ package ipv4
 
 import (
 	"net"
+	"strings"
 )
 
-// IsIPv4 return true if input is a valid IPv4 address
-func IsIPv4(dots string) bool {
-	ip := net.ParseIP(dots)
-	if ip == nil {
-		return false
+// IsIPv4 returns true if the input is either a dotted IPv4 address or if
+// if its IPv4 dotted/cidr notation
+func IsIPv4(s string) bool {
+	var ipany net.IP
+	if strings.IndexByte(s, '/') != -1 {
+		ip, _ /*mask*/, err := net.ParseCIDR(s)
+		if err != nil {
+			return false
+		}
+		ipany = ip
+	} else {
+		ipany = net.ParseIP(s)
 	}
-	return ip.To4() != nil
+	return ipany != nil && ipany.To4() != nil
 }
 
-// IsInternal returns true if the dotted IP address is in
+// IsPrivate determines if a ip address is Not Public.
 //
-// 0
-// 10.0.0.0 - 10.255.255.255
-// 127.0.0.0 - 127.255.255.255
-// 172.16.0.0 - 172.31.255.255
-// 192.168.0.0 - 192.168.255.255
+// Note in this case Private means "localhost, loopback, link local and private
+// subnets".
 //
-// This might be better as "IsNotExternal" but that is gross.
-//
-func IsInternal(dots string) bool {
-	ip := net.ParseIP(dots)
-	if ip == nil {
-		return true
-	}
-	if ip4 := ip.To4(); ip4 != nil {
-		if ip4[0] == 127 {
-			return true
-		}
-		if ip4[0] == 10 {
-			return true
-		}
-		if ip4[0] == 192 && ip4[1] == 168 {
-			return true
-		}
-		if ip4[0] == 172 && ip4[1] >= 16 && ip4[1] < 32 {
-			return true
-		}
-		if ip4[0] == 0 && ip4[1] == 0 && ip4[2] == 0 && ip4[3] == 0 {
-			return true
+func IsPrivate(ipdots string) bool {
+	ip := net.ParseIP(ipdots)
+	if ip != nil {
+		ip4 := ip.To4()
+		if ip4 != nil {
+			switch {
+			case ip4[0] == 127:
+				return true
+			// 10-net Class A 10.0.0.0/8
+			case ip4[0] == 10:
+				return true
+			// 192.168.0.0/16
+			case ip4[0] == 192 && ip4[1] == 168:
+				return true
+			// 172.16.0.0/12
+			case ip4[0] == 172 && ip4[1] >= 16 && ip4[1] <= 31:
+				return true
+			// link local  169.254.0.0/16
+			case ip4[0] == 169 && ip4[1] == 254:
+				return true
+			}
 		}
 	}
 
-	// IpV6
+	// sometimes we get stuff like localhost:2131231 (some port number)
+	if strings.HasPrefix(ipdots, "localhost") || strings.HasPrefix(ipdots, "127.0.0.1:") {
+		return true
+	}
+
 	return false
 }

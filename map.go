@@ -136,7 +136,7 @@ func (ipset IntervalMap) Valid() error {
 		}
 		if pos > 0 {
 			if val.Left <= last.Right || val.Right <= last.Right {
-				return fmt.Errorf("Overlaping regions [%s,%s] vs. [%s,%s]",
+				return fmt.Errorf("Overlapping regions [%s,%s] vs. [%s,%s]",
 					ToDots(last.Left), ToDots(last.Right),
 					ToDots(val.Left), ToDots(val.Right))
 			}

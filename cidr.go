@@ -6,7 +6,7 @@ import (
 )
 
 // CIDR2Range converts a CIDR to a dotted IP address pair, or empty strings and error
-//  generic.. does not care if ipv4 or ipv6
+// Generic.. does not care if ipv4 or ipv6
 func CIDR2Range(c string) (string, string, error) {
 	left, ipnet, err := net.ParseCIDR(c)
 	if err != nil {
@@ -26,7 +26,7 @@ func CIDR2Range(c string) (string, string, error) {
 }
 
 // Range2CIDRs take a pair of IpV4 addresses in dotted form, and return a list of
-//  IPV4 CIDR ranges.  (or nil if invalid input)
+// IPV4 CIDR ranges.  (or nil if invalid input)
 func Range2CIDRs(dots1, dots2 string) (r []string) {
 	a1, err := FromDots(dots1)
 	if err != nil {

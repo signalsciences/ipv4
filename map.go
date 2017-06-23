@@ -189,8 +189,8 @@ func (ipset IntervalMap) Len() int {
 	return ipset.Intervals.Len()
 }
 
-// Contains returns true if the ip is in the set
-//   error if set or input isn't valid
+// Contains returns true if the ip is in the set,
+// error if set or input isn't valid
 func (ipset IntervalMap) Contains(dots string) interface{} {
 	val, err := FromDots(dots)
 	if err != nil {

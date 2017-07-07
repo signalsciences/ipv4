@@ -25,8 +25,8 @@ func CIDR2Range(c string) (string, string, error) {
 	return left4.String(), right.To4().String(), nil
 }
 
-// Range2CIDRs take a pair of IpV4 addresses in dotted form, and return a list of
-// IPV4 CIDR ranges.  (or nil if invalid input)
+// Range2CIDRs take a pair of IPv4 addresses in dotted form, and return a list of
+// IPv4 CIDR ranges.  (or nil if invalid input)
 func Range2CIDRs(dots1, dots2 string) (r []string) {
 	a1, err := FromDots(dots1)
 	if err != nil {

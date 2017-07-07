@@ -6,7 +6,7 @@ import (
 )
 
 // IsIPv4 returns true if the input is either a dotted IPv4 address or if
-// if its IPv4 dotted/cidr notation
+// it's IPv4 dotted/cidr notation
 func IsIPv4(s string) bool {
 	var ipany net.IP
 	if strings.IndexByte(s, '/') != -1 {

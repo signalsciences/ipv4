@@ -75,7 +75,10 @@ func TestSettingCIDR(t *testing.T) {
 	if set.Len() != 4 {
 		t.Errorf("expected len of 4, got %d", set.Len())
 	}
-	set.Add("10.0.0.4", 7)
+	err := set.Add("10.0.0.4", 7)
+	if err != nil {
+		t.Fatalf("set.Add(%q, %d) err: %v", "10.0.0.4", 7, err)
+	}
 	if set.Len() != 4 {
 		t.Errorf("expected len of 4, got %d", set.Len())
 	}

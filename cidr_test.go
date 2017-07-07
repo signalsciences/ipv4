@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestCidrToRange(t *testing.T) {
+func TestCIDR2Range(t *testing.T) {
 	tests := []struct {
 		cidr  string
 		left  string
@@ -17,12 +17,12 @@ func TestCidrToRange(t *testing.T) {
 	for pos, tt := range tests {
 		left, right, err := CIDR2Range(tt.cidr)
 		if left != tt.left || right != tt.right || err != tt.err {
-			t.Errorf("%d: %s expected [%s, %s] got [%s, %s]", pos, tt.cidr, tt.left, tt.right, left, right)
+			t.Errorf("%d: %s got [%s, %s], want [%s, %s]", pos, tt.cidr, left, right, tt.left, tt.right)
 		}
 	}
 }
 
-func TestCidr(t *testing.T) {
+func TestRange2CIDRs(t *testing.T) {
 	tests := []struct {
 		left   string
 		right  string
@@ -40,10 +40,10 @@ func TestCidr(t *testing.T) {
 		if tt.ranges == nil && val != nil {
 			t.Errorf("mismatch")
 		} else {
-			expected := fmt.Sprintf("%v", tt.ranges)
-			actual := fmt.Sprintf("%v", val)
-			if expected != actual {
-				t.Errorf("Expected %s, Got %s", expected, actual)
+			want := fmt.Sprintf("%v", tt.ranges)
+			got := fmt.Sprintf("%v", val)
+			if got != want {
+				t.Errorf("Range2CIDRS: got %s, want %s", got, want)
 			}
 		}
 	}

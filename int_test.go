@@ -1,7 +1,6 @@
 package ipv4
 
 import (
-	"bytes"
 	"net"
 	"testing"
 )
@@ -24,7 +23,7 @@ func TestFromDotsError(t *testing.T) {
 func TestToNetIP(t *testing.T) {
 	n := ToNetIP(3232235777)
 	ip := net.ParseIP("192.168.1.1")
-	if !bytes.Equal(n, ip) {
+	if !n.Equal(ip) {
 		t.Errorf("ToNetIP(3232235777) = %v, want %v", n, ip)
 	}
 }

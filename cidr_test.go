@@ -43,8 +43,13 @@ func TestRange2CIDRs(t *testing.T) {
 			want := fmt.Sprintf("%v", tt.ranges)
 			got := fmt.Sprintf("%v", val)
 			if got != want {
-				t.Errorf("Range2CIDRS: got %s, want %s", got, want)
+				t.Errorf("Range2CIDRs: got %s, want %s", got, want)
 			}
 		}
 	}
+}
+
+func ExampleRange2CIDRs() {
+	fmt.Println(Range2CIDRs("127.0.0.0", "127.0.0.255"))
+	// Output: [127.0.0.0/24]
 }

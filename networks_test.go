@@ -1,6 +1,9 @@
 package ipv4
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestIsIPv4(t *testing.T) {
 	tests := []struct {
@@ -63,12 +66,13 @@ func TestIsPrivate(t *testing.T) {
 
 }
 
-func ExampleIsIPv4(t *testing.T) {
-	IsIPv4("10.0.0.0")
-	IsIPv4("10.0.0.0/8")
-	IsIPv4("2001:4860:0:2001::68")
-	IsIPv4("2001:DB8::/48")
-	// Output: true
+func ExampleIsIPv4() {
+	fmt.Println(IsIPv4("10.0.0.0"))
+	fmt.Println(IsIPv4("10.0.0.0/8"))
+	fmt.Println(IsIPv4("2001:4860:0:2001::68"))
+	fmt.Println(IsIPv4("2001:DB8::/48"))
+	// Output:
+	// true
 	// true
 	// false
 	// false

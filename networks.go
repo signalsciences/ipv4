@@ -21,11 +21,10 @@ func IsIPv4(s string) bool {
 	return ipany != nil && ipany.To4() != nil
 }
 
-// IsPrivate determines if a ip address is Not Public.
+// IsPrivate determines if an IP address is Not Public.
 //
 // Note in this case Private means "localhost, loopback, link local and private
 // subnets".
-//
 func IsPrivate(ipdots string) bool {
 	ip := net.ParseIP(ipdots)
 	if ip != nil {

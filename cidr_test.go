@@ -2,6 +2,7 @@ package ipv4
 
 import (
 	"fmt"
+	"log"
 	"testing"
 )
 
@@ -49,6 +50,14 @@ func TestRange2CIDRs(t *testing.T) {
 	}
 }
 
+func ExampleCIDR2Range() {
+	left, right, err := CIDR2Range("199.27.72.0/21")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(left, right)
+	// Output: 199.27.72.0 199.27.79.255
+}
 func ExampleRange2CIDRs() {
 	fmt.Println(Range2CIDRs("127.0.0.0", "127.0.0.255"))
 	// Output: [127.0.0.0/24]

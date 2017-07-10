@@ -1,6 +1,6 @@
 # ipv4
 
-[![GoDoc](https://godoc.org/github.com/signalsciences/ipv4?status.svg)](https://godoc.org/github.com/signalsciences/ipv4)
+[![GoDoc](https://godoc.org/github.com/signalsciences/ipv4?status.svg)](https://godoc.org/github.com/signalsciences/ipv4) [![Build Status](https://travis-ci.org/signalsciences/ipv4.svg?branch=master)](https://travis-ci.org/signalsciences/ipv4)
 
 Package for conveniently working with IPv4 and CIDR ranges.
 

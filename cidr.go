@@ -1,3 +1,4 @@
+// Package ipv4 provides functionality for conveniently working with IPv4 and CIDR ranges.
 package ipv4
 
 import (

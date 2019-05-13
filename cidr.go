@@ -9,11 +9,11 @@ import (
 // CIDR2Range converts a CIDR to a dotted IP address pair, or empty strings and error.
 // Generic: does not care if IPv4 or IPv6.
 func CIDR2Range(c string) (string, string, error) {
-	left, ipnet, err := net.ParseCIDR(c)
+	_, ipnet, err := net.ParseCIDR(c)
 	if err != nil {
 		return "", "", err
 	}
-	left4 := left.To4()
+	left4 := ipnet.IP.To4()
 	if left4 == nil {
 		return "", "", nil
 	}

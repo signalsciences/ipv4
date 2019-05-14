@@ -7,7 +7,6 @@ lint:
 		--deadline=60s \
 		--disable-all \
 		--enable=goimports \
-		--enable=aligncheck \
 		--enable=vetshadow \
 		--enable=varcheck \
 		--enable=structcheck \

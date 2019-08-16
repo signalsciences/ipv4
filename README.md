@@ -6,7 +6,7 @@ Package for conveniently working with IPv4 and CIDR ranges.
 
 ## Examples
 
-* Get start and end IPs in a CIDR range:
+### Get start and end IPs in a CIDR range:
 
 ```
 left, right, err := ipv4.CIDR2Range("199.27.72.0/21")
@@ -22,7 +22,7 @@ Output:
 199.27.72.0 199.27.79.255
 ```
 
-* Check if IP is IPv4 (works for CIDR too):
+### Check if IP is IPv4 (works for CIDR too):
 
 ```
 fmt.Println(ipv4.IsIPv4("10.0.0.0"))
@@ -36,7 +36,7 @@ true
 true
 ```
 
-* Check if IP is private:
+### Check if IP is private:
 
 ```
 fmt.Println(ipv4.IsPrivate("10.0.0.0"))

@@ -1,0 +1,28 @@
+# https://github.com/golangci/golangci-lint
+#
+# see https://github.com/golangci/golangci-lint#config-file
+#
+run:
+  timeout: 2m
+  skip-dirs:
+output:
+  format: line-number
+linters:
+  disable-all: true
+  enable:
+    - gofmt
+    - govet
+    - gosec
+    - structcheck
+    - gosimple
+    - dupl
+    - prealloc
+    - golint
+    - unconvert
+    - maligned
+    - ineffassign
+
+# good need to work on it
+#    - prealloc 
+#    - interfacer
+#    - ineffassign

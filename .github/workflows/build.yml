@@ -1,0 +1,23 @@
+#
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: [ '1.13', '1.14' ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup golang
+        uses: actions/setup-go@v2-beta
+        with:
+          go-version: ${{ matrix.go }}
+      - name: Build
+        run: make build
+      - name: Test
+        run: make test
+      - name: Lint
+        run: make lint
+

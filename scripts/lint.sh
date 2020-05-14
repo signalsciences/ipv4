@@ -7,7 +7,7 @@ set -e
 
 # https://github.com/golangci/golangci-lint
 LINT=./bin/golangci-lint
-VERSION=1.26.0
+VERSION=1.27.0
 
 # first time install
 if [ ! -f "${LINT}" ]; then 

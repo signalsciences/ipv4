@@ -3,8 +3,8 @@ package ipv4
 import (
 	"encoding/binary"
 	"errors"
-	"fmt"
 	"net"
+	"sort"
 )
 
 var ErrBadIP = errors.New("Bad IP address")
@@ -71,11 +71,80 @@ func FromDots(ipstr string) (uint32, error) {
 
 // ToDots converts a uint32 to a IPv4 Dotted notation
 //
-// Impl is mostly for debugging and is not high performance
-func ToDots(val uint32) string {
-	return fmt.Sprintf("%d.%d.%d.%d",
-		val>>24,
-		(val>>16)&0xFF,
-		(val>>8)&0xFF,
-		val&0xFF)
+// About 10x faster than doing something with fmt.Sprintf
+// one allocation per call.
+//
+// Based on golang's net/IP.String()
+// https://golang.org/src/net/ip.go?s=7645:7673#L281
+//
+func ToDots(p4 uint32) string {
+	const maxIPv4StringLen = len("255.255.255.255")
+	b := make([]byte, maxIPv4StringLen)
+
+	n := ubtoa(b, 0, byte(p4>>24))
+	b[n] = '.'
+	n++
+
+	n += ubtoa(b, n, byte((p4>>16)&0xFF))
+	b[n] = '.'
+	n++
+
+	n += ubtoa(b, n, byte((p4>>8)&0xFF))
+	b[n] = '.'
+	n++
+
+	n += ubtoa(b, n, byte(p4&0xFF))
+	return string(b[:n])
+}
+
+// from
+// https://golang.org/src/net/ip.go?s=7645:7673#L281
+//
+// ubtoa encodes the string form of the integer v to dst[start:] and
+// returns the number of bytes written to dst. The caller must ensure
+// that dst has sufficient length.
+func ubtoa(dst []byte, start int, v byte) int {
+	if v < 10 {
+		dst[start] = v + '0'
+		return 1
+	} else if v < 100 {
+		dst[start+1] = v%10 + '0'
+		dst[start] = v/10 + '0'
+		return 2
+	}
+
+	dst[start+2] = v%10 + '0'
+	dst[start+1] = (v/10)%10 + '0'
+	dst[start] = v/100 + '0'
+	return 3
+}
+
+type uslice []uint32
+
+func (p uslice) Len() int           { return len(p) }
+func (p uslice) Less(i, j int) bool { return p[i] < p[j] }
+func (p uslice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+
+// SortUniqueUint32 sorts, and dedups a slice of uint32 (maybe representing
+// binary representation of IPv4 address
+//
+// sorting and uniqueness is done in place
+//
+func SortUniqueUint32(in []uint32) {
+	sort.Sort(uslice(in))
+
+	// inplace sort
+	// https://github.com/golang/go/wiki/SliceTricks#in-place-deduplicate-comparable
+	j := 0
+	for i := 1; i < len(in); i++ {
+		if in[j] == in[i] {
+			continue
+		}
+		j++
+		// preserve the original data
+		// in[i], in[j] = in[j], in[i]
+		// only set what is required
+		in[j] = in[i]
+	}
+	in = in[:j+1]
 }

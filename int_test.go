@@ -75,6 +75,21 @@ func TestRoundTrip(t *testing.T) {
 	}
 }
 
+func TestSortUnique(t *testing.T) {
+	case1 := []uint32{1, 1, 1, 1, 1, 1, 1}
+	SortUniqueUint32(case1)
+	if len(case1) != 1 && case1[0] != 1 {
+		t.Errorf("Dedup failed")
+	}
+	case2 := []uint32{9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
+	SortUniqueUint32(case2)
+	for i := 0; i < 10; i++ {
+		if case2[i] != uint32(i) {
+			t.Fatalf("Sort order failed")
+		}
+	}
+}
+
 var tempOut uint32
 
 func BenchmarkFromDots(b *testing.B) {
@@ -83,4 +98,15 @@ func BenchmarkFromDots(b *testing.B) {
 		val, _ = FromDots("255.129.128.127")
 	}
 	tempOut = val
+}
+
+var tempString string
+
+func BenchmarkToDots(b *testing.B) {
+	var tmp string
+	ip, _ := FromDots("1.19.159.255")
+	for i := 0; i < b.N; i++ {
+		tmp = ToDots(ip)
+	}
+	tempString = tmp
 }

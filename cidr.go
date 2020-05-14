@@ -40,6 +40,23 @@ func Range2CIDRs(dots1, dots2 string) (r []string) {
 	if a1 > a2 {
 		return nil
 	}
+	Interval2CIDRs(a1, a2, func(left uint32, mask byte) {
+		r = append(r, fmt.Sprintf("%s/%d", ToDots(left), mask))
+	})
+	return r
+}
+
+// Interval2CIDRs is the binary version of Range2CIDRs
+//
+// A function is passed in to emit the networks.
+//
+func Interval2CIDRs(a1, a2 uint32, out func(left uint32, mask byte)) {
+	// fast path
+	if a1 == a2 {
+		out(a1, byte(32))
+		return
+	}
+
 	for a1 <= a2 {
 		var l, first, last uint32
 		for l = 32; l >= 0; l-- {
@@ -50,12 +67,11 @@ func Range2CIDRs(dots1, dots2 string) (r []string) {
 				break
 			}
 		}
-		r = append(r, fmt.Sprintf("%s/%d", ToDots(a1), 32-l))
+		out(a1, byte(32-l))
 		a1 = last
 		if a1 == uint32(0xFFFFFFFF) {
 			break
 		}
 		a1++
 	}
-	return r
 }

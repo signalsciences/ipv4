@@ -73,9 +73,26 @@ func TestAdd(t *testing.T) {
 		t.Errorf("Accepted junk input")
 	}
 
-	s.Raw = append(s.Raw, uint32(0))
+	// intentionally have data be unsorted
+	s = append(s, uint32(0))
 	if s.Valid() {
 		t.Errorf("have s.Valid() == true, want false")
 	}
 
+	s.sort()
+	if !s.Valid() {
+		t.Errorf("sorting did not work")
+	}
+}
+
+func TestAddAll(t *testing.T) {
+	s := Set{}
+	s.AddAll([]string{"127.0.0.1", "10.0.0.1"})
+	if !s.Valid() {
+		t.Fatalf("AddAll is not valid")
+	}
+	out := s.ToDots()
+	if out[0] != "10.0.0.1" || out[1] != "127.0.0.1" {
+		t.Fatalf("Dump failed: %v", out)
+	}
 }

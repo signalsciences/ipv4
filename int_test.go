@@ -51,6 +51,16 @@ func TestFromDotsErrors(t *testing.T) {
 	}
 }
 
+func TestEndian(t *testing.T) {
+	val, err := FromNetIP(net.ParseIP("0.0.0.1"))
+	if err != nil {
+		t.Fatalf("unable to parse 0.0.0.1")
+	}
+	if val != 1 {
+		t.Fatalf("endian problem parsing 0.0.0.1")
+	}
+}
+
 func TestRoundTrip(t *testing.T) {
 	cases := []string{
 		"0.0.0.0",

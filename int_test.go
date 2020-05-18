@@ -110,3 +110,14 @@ func BenchmarkToDots(b *testing.B) {
 	}
 	tempString = tmp
 }
+
+var tempUint32 uint32
+
+func BenchmarkFromNetIP(b *testing.B) {
+	var tmp uint32
+	ip := net.ParseIP("128.128.128.128")
+	for i := 0; i < b.N; i++ {
+		tmp, _ = FromNetIP(ip)
+	}
+	tempUint32 = tmp
+}

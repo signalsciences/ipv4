@@ -1,21 +1,21 @@
 package ipv4
 
 import (
-	"encoding/binary"
 	"errors"
 	"net"
 	"sort"
 )
 
+// ErrBadIP is a generic error that an IP address could not be parsed
 var ErrBadIP = errors.New("Bad IP address")
 
 // FromNetIP converts a IPv4 net.IP to uint32, error
 func FromNetIP(ip net.IP) (uint32, error) {
 	ip = ip.To4()
 	if ip == nil {
-		return 0, errors.New("not a IPv4 address")
+		return 0, ErrBadIP
 	}
-	return binary.BigEndian.Uint32(ip), nil
+	return uint32(ip[3]) | uint32(ip[2])<<8 | uint32(ip[1])<<16 | uint32(ip[0])<<24, nil
 }
 
 // ToNetIP converts a uint32 to a net.IP (net.IPv4 actually)

@@ -5,7 +5,16 @@ import (
 )
 
 // Set defines a unique set of IPv4 addresses using a simple []uint32
+//
+// Since Set is a alias of []unit32, one can use
+// `make(Set, length, capacity)` or use the NewSet constructor
+//
 type Set []uint32
+
+// NewSet creates a Set with a given initial capacity.
+func NewSet(capacity int) Set {
+	return make(Set, 0, capacity)
+}
 
 // Len returns a length, part of the Sort.Interface
 func (m Set) Len() int {
@@ -76,6 +85,30 @@ func (m *Set) AddAll(ipv4dots []string) bool {
 	return true
 }
 
+// Valid return true if the internal storage is in sorted form and unique
+func (m Set) Valid() bool {
+	if len(m) == 0 {
+		return true
+	}
+	last := m[0]
+	for _, val := range m[1:] {
+		if val <= last {
+			return false
+		}
+		last = val
+	}
+	return true
+}
+
+// ToDots returns the IP set as a list of dotted-notation strings
+func (m Set) ToDots() []string {
+	out := make([]string, len(m))
+	for i, val := range m {
+		out[i] = ToDots(val)
+	}
+	return out
+}
+
 func (m *Set) sort() {
 	in := *m
 	sort.Sort(in)
@@ -94,27 +127,4 @@ func (m *Set) sort() {
 		in[j] = in[i]
 	}
 	in = in[:j+1]
-}
-
-// Valid return true if the internal storage is in sorted form and unique
-func (m Set) Valid() bool {
-	if len(m) == 0 {
-		return true
-	}
-	last := m[0]
-	for _, val := range m[1:] {
-		if val <= last {
-			return false
-		}
-		last = val
-	}
-	return true
-}
-
-func (m Set) ToDots() []string {
-	out := make([]string, len(m))
-	for i, val := range m {
-		out[i] = ToDots(val)
-	}
-	return out
 }

@@ -86,7 +86,7 @@ func TestAdd(t *testing.T) {
 }
 
 func TestAddAll(t *testing.T) {
-	s := Set{}
+	s := NewSet(2)
 	s.AddAll([]string{"127.0.0.1", "10.0.0.1"})
 	if !s.Valid() {
 		t.Fatalf("AddAll is not valid")

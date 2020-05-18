@@ -3,7 +3,6 @@ package ipv4
 import (
 	"errors"
 	"net"
-	"sort"
 )
 
 // ErrBadIP is a generic error that an IP address could not be parsed
@@ -119,32 +118,13 @@ func ubtoa(dst []byte, start int, v byte) int {
 	return 3
 }
 
-type uslice []uint32
-
-func (p uslice) Len() int           { return len(p) }
-func (p uslice) Less(i, j int) bool { return p[i] < p[j] }
-func (p uslice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
-
 // SortUniqueUint32 sorts, and dedups a slice of uint32 (maybe representing
 // binary representation of IPv4 address
 //
 // sorting and uniqueness is done in place
 //
 func SortUniqueUint32(in []uint32) {
-	sort.Sort(uslice(in))
-
-	// inplace sort
-	// https://github.com/golang/go/wiki/SliceTricks#in-place-deduplicate-comparable
-	j := 0
-	for i := 1; i < len(in); i++ {
-		if in[j] == in[i] {
-			continue
-		}
-		j++
-		// preserve the original data
-		// in[i], in[j] = in[j], in[i]
-		// only set what is required
-		in[j] = in[i]
-	}
-	in = in[:j+1]
+	// reuse Set (which is a []unit32 anyways) implimentation
+	set := Set(in)
+	set.sort()
 }

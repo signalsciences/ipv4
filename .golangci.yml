@@ -21,8 +21,6 @@ linters:
     - unconvert
     - maligned
     - ineffassign
-
-# good need to work on it
-#    - prealloc 
-#    - interfacer
-#    - ineffassign
+    - prealloc 
+    - interfacer
+    - ineffassign

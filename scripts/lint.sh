@@ -22,26 +22,3 @@ if [ $($LINT --version | grep -c $VERSION) -ne "1" ]; then
 fi
 
 ${LINT} run 
-
-## All of these turned up goodies but not fixing them right now
-#
-# these are mostly the same
-#       --enable=varcheck
-#	--enable=deadcode 
-#       --enable=unused
-#
-# useful but will require work
-#	--enable=dupl
-
-# // no so useful so far
-#	--enable=goconst
-
-# can't tell what it does
-#	--enable=scopelint
-
-
-#	--enable=gochecknoinits
-#	--enable=staticcheck \
-#	--enable=errchec
-#	--enable=unconvert \
-#	--enable=gosimple \

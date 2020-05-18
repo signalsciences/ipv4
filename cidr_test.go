@@ -26,6 +26,7 @@ func TestCIDR2Range(t *testing.T) {
 		{"172.16.0.0/12", "172.16.0.0", "172.31.255.255", nil},
 		{"192.0.0.0/8", "192.0.0.0", "192.255.255.255", nil},
 		{"192.0.2.0/8", "192.0.0.0", "192.255.255.255", nil},
+		{"2001:db8:a0b:12f0::1/32", "", "", ErrBadIP},
 	}
 	for pos, tt := range tests {
 		left, right, err := CIDR2Range(tt.cidr)

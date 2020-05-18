@@ -15,7 +15,7 @@ func CIDR2Range(c string) (string, string, error) {
 	}
 	left4 := ipnet.IP.To4()
 	if left4 == nil {
-		return "", "", nil
+		return "", "", ErrBadIP
 	}
 	right := net.IPv4(0, 0, 0, 0).To4()
 	right[0] = left4[0] | ^ipnet.Mask[0]

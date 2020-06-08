@@ -33,15 +33,12 @@ func (m Set) Less(i, j int) bool {
 
 // Contains matches a dotted IPv4 address with an internal list
 func (m Set) Contains(ipv4dots string) bool {
-	if len(m) == 0 {
-		return false
-	}
 	x, err := FromDots(ipv4dots)
 	if err != nil {
 		return false
 	}
 	i := sort.Search(len(m), func(i int) bool { return m[i] >= x })
-	return (i < len(m) && m[i] == x)
+	return i < len(m) && m[i] == x
 }
 
 // Add an element to the set.
@@ -113,7 +110,7 @@ func (m *Set) sort() {
 	in := *m
 	sort.Sort(in)
 
-	// inplace sort
+	// inplace de-dup, uniqueness
 	// https://github.com/golang/go/wiki/SliceTricks#in-place-deduplicate-comparable
 	j := 0
 	for i := 1; i < len(in); i++ {

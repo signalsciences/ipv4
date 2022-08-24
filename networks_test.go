@@ -56,6 +56,9 @@ func TestIsPrivate(t *testing.T) {
 		{"localhost", true},
 		{"localhost:12312", true},
 		{"127.0.0.1:12321", true},
+
+		// IPV6
+		{"::1", true},
 	}
 
 	for _, tt := range tests {

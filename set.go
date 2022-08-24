@@ -8,7 +8,6 @@ import (
 //
 // Since Set is a alias of []unit32, one can use
 // `make(Set, length, capacity)` or use the NewSet constructor
-//
 type Set []uint32
 
 // NewSet creates a Set with a given initial capacity.

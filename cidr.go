@@ -49,7 +49,6 @@ func Range2CIDRs(dots1, dots2 string) (r []string) {
 // Interval2CIDRs is the binary version of Range2CIDRs
 //
 // A function is passed in to emit the networks.
-//
 func Interval2CIDRs(a1, a2 uint32, out func(left uint32, mask byte)) {
 	// fast path
 	if a1 == a2 {

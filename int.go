@@ -75,7 +75,6 @@ func FromDots(ipstr string) (uint32, error) {
 //
 // Based on golang's net/IP.String()
 // https://golang.org/src/net/ip.go?s=7645:7673#L281
-//
 func ToDots(p4 uint32) string {
 	const maxIPv4StringLen = len("255.255.255.255")
 	b := make([]byte, maxIPv4StringLen)
@@ -122,7 +121,6 @@ func ubtoa(dst []byte, start int, v byte) int {
 // binary representation of IPv4 address
 //
 // sorting and uniqueness is done in place
-//
 func SortUniqueUint32(in []uint32) {
 	// reuse Set (which is a []unit32 anyways) implimentation
 	set := Set(in)

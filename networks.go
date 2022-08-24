@@ -34,8 +34,5 @@ func IsPrivate(ipdots string) bool {
 		}
 		return false
 	}
-	if ip.IsLoopback() || ip.IsLinkLocalMulticast() || ip.IsLinkLocalUnicast() || ip.IsPrivate() {
-		return true
-	}
-	return false
+	return ip.IsLoopback() || ip.IsLinkLocalMulticast() || ip.IsLinkLocalUnicast() || ip.IsPrivate()
 }
